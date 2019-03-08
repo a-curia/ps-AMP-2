@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 
 import { Customer } from './customer';
 
@@ -14,14 +14,20 @@ export class CustomerComponent implements OnInit {
   customerForm: FormGroup; // our template will bind to this property
   customer = new Customer(); // DATA MODEL used in backend
 
-  constructor() { }
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() { // instance of FormGroup created when the form is initialized
-    this.customerForm = new FormGroup({ // FORM MODEL used in ui
-      firstName: new FormControl(),
-      lastName: new FormControl(),
-      email: new FormControl(),
-      sendCatalog: new FormControl(true) // set the default value for that form input
+    // this.customerForm = new FormGroup({ // FORM MODEL used in ui
+    //   firstName: new FormControl(),
+    //   lastName: new FormControl(),
+    //   email: new FormControl(),
+    //   sendCatalog: new FormControl(true) // set the default value for that form input
+    // });
+    this.customerForm = this.fb.group({
+      firstName: '',
+      lastName: '',
+      email: '',
+      sendCatalog: true
     });
   }
 
