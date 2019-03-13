@@ -16,8 +16,6 @@
                  id="firstNameId"
                  type="text"
                  placeholder="First Name (required)"
-                 required
-                 minlength="3"
                  formControlName="firstName"
                  [ngClass]="{'is-invalid': (customerForm.get('firstName').touched || customerForm.get('firstName').dirty) && !customerForm.get('firstName').valid }" />
           <span class="invalid-feedback">
