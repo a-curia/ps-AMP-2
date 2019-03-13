@@ -27,6 +27,8 @@ export class CustomerComponent implements OnInit {
       firstName: ['', [Validators.required, Validators.minLength(3)]],
       lastName: {value: 'n/a', disabled: true},
       email: '',
+      phone: '',
+      notification: 'email',
       sendCatalog: [true]
     });
   }
@@ -43,4 +45,18 @@ export class CustomerComponent implements OnInit {
     console.log(this.customerForm);
     console.log('Saved: ' + JSON.stringify(this.customerForm.value));
   }
+
+  setNotification(notifyVia: string): void {
+    const phoneControl = this.customerForm.get('phone');
+    if (notifyVia === 'text') {
+      phoneControl.setValidators(Validators.required);
+    } else {
+      phoneControl.clearValidators();
+    }
+
+    phoneControl.updateValueAndValidity();
+
+  }
+
+
 }
