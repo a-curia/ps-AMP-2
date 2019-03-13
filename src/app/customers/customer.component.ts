@@ -24,6 +24,20 @@ function ratingRange(min: number, max: number): ValidatorFn {
   };
 }
 
+function emailMatcher(c: AbstractControl): {[key: string]: boolean} | null {
+  const emailControl = c.get('email');
+  const confirmlControl = c.get('confirmEmail');
+
+  if (emailControl.pristine || confirmlControl.pristine) {
+    return null;
+  }
+  if (emailControl.value === confirmlControl.value) {
+    return null;
+  }
+  return {'match': true}; // the key is the name of the validation rule; true tells to add this error to the error collection for the FormGroup
+  // adds the broken validation rule name to the errors collection for the formGroup, not the individual Form Controls
+}
+
 
 @Component({
   selector: 'app-customer',
@@ -48,9 +62,9 @@ export class CustomerComponent implements OnInit {
       firstName: ['', [Validators.required, Validators.minLength(3)]],
       lastName: {value: 'n/a', disabled: true},
       emailGroup: this.fb.group({
-        email: '',
+        email: ['',[Validators.required, Validators.email]],
         confirmEmail:['', Validators.required]
-      }),
+      }, {validator: emailMatcher}),
       phone: '',
       notification: 'email',
       rating: [null, ratingRange(1, 5)],
