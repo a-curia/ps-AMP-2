@@ -72,7 +72,13 @@ export class CustomerComponent implements OnInit {
     });
 
     this.customerForm.get('notificaiton').valueChanges.subscribe( // subscribe to FormControl to watch for changes
-      value => console.log(value)
+      // we can
+      //- adjust validation rules
+      //- handle validation messages
+      //- modify user interface elements
+      //- provide automatic suggestions
+      //- ... unlimited possibilities
+      value => this.setNotification(value)
     );
   }
 
