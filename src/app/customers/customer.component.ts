@@ -70,6 +70,10 @@ export class CustomerComponent implements OnInit {
       rating: [null, ratingRange(1, 5)],
       sendCatalog: [true]
     });
+
+    this.customerForm.get('notificaiton').valueChanges.subscribe( // subscribe to FormControl to watch for changes
+      value => console.log(value)
+    );
   }
 
   populateTestData(): void {
