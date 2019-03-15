@@ -4,6 +4,8 @@ import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl, Valid
 
 import { Customer } from './customer';
 
+import { debounceTime } from 'rxjs/operators'
+
 
 
   // custom form validator function
@@ -89,7 +91,9 @@ export class CustomerComponent implements OnInit {
 
     // watcher on the email input
     const emailControl = this.customerForm.get('emailGroup.email');
-    emailControl.valueChanges.subscribe(
+    emailControl.valueChanges
+    .pipe(debounceTime(1000)) // 1 second without typeing and after we do the validation
+    .subscribe(
       value => this.sendMessage(emailControl)
     );
   }
