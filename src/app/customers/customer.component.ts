@@ -49,6 +49,12 @@ export class CustomerComponent implements OnInit {
   customerForm: FormGroup; // our template will bind to this property
   customer = new Customer(); // DATA MODEL used in backend
 
+  emailMessage: string; // message displayed to the user
+  private validationMessages = { // possible messages
+    required: 'Please enter your email address.',
+    email: 'Please enter a valid email address.'
+  };
+
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() { // instance of FormGroup created when the form is initialized
@@ -80,6 +86,12 @@ export class CustomerComponent implements OnInit {
       //- ... unlimited possibilities
       value => this.setNotification(value)
     );
+
+    // watcher on the email input
+    const emailControl = this.customerForm.get('emailGroup.email');
+    emailControl.valueChanges.subscribe(
+      value => this.sendMessage(emailControl)
+    );
   }
 
   populateTestData(): void {
@@ -107,6 +119,13 @@ export class CustomerComponent implements OnInit {
 
   }
 
+  sendMessage(c: AbstractControl): void { // method take as param a FormGroup or FormControl
+    this.emailMessage = '';
+    if ((c.touched || c.dirty) && c.errors) {
+      this.emailMessage = Object.keys(c.errors).map(key => this.emailMessage += this.validationMessages[key]).join(' ');
+    }
+
+  }
 
 
 
